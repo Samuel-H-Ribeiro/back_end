@@ -1,4 +1,5 @@
 <?php
+    include_once("../biblioteca/funcoes_model.php");
     class login {
     
     private $nome;
@@ -30,16 +31,13 @@
             }
             return $invalido;
         } 
-            
-        // $result->execute(array(':email' => $obj->email));
 
         public function logar($obj, $conn) {
            
-            $select = "SELECT id, nome, email, senha FROM login WHERE email = :email";
+            $select = "SELECT id, nome, email, senha FROM login WHERE email LIKE :email";
             $result = $conn->prepare($select);
             $result->execute(array(':email' => $obj->email));
             $login = $result->fetch(PDO::FETCH_ASSOC);
-            echo"$login->senha";
             if(($obj->email == $login['email']) and (password_verify($obj->senha, $login['senha']))){
                 if($login['id'] <= 0) {
                     $login = false;

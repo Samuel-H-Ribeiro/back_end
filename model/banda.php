@@ -1,5 +1,5 @@
 <?php
-    include_once("../biblioteca/funcoes_model.php");
+   // include_once("../biblioteca/funcoes_model.php");
     class banda{
         private $nome, $qtd_int, $estilo, $id_user, $cep, $cidade, $estado;
         public $email;
@@ -19,8 +19,14 @@
         }
     
         public function cadastrarBanda($obj, $conn){
-            $select = "SELECT email FROM banda WHERE email LIKE '$obj->email'";
-            
+
+            $insert = "INSERT INTO `banda` (`nome`,`integrantes`,`id_estilo`,`email`, `id_user`, `id_cep`, `id_cidade`, `id_estado`, `foto`) 
+            VALUES ('$obj->nome', '$obj->qtd_int', $obj->estilo, '$obj->email', $obj->id_user, $obj->cep, $obj->cidade, $obj->estado, '$obj->ft_perfil')";
+                //':nome', ':integrantes', ':estilo', ':email', ':usuario', ':cep', ':cidade', ':estado', ':foto')
+            $insert = $conn->prepare($insert);
+            $insert->execute();
+                //array(':nome' => $obj->nome, ':integrantes' => $obj->qtd_int, ':estilo' => $obj->estilo, ':email' => $obj->email,
+            //':usuario' => $obj->id_user, ':cep' => $obj->cep, ':cidade' => $obj->cidade, ':estado' => $obj->estado, ':foto' => $obj->ft_perfil));
         }
     }
 

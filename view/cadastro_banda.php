@@ -10,15 +10,19 @@
 ?>
     
     <form action="../controller/cadastro_banda.php" method="post">
-        <label for="nome">nome: </label> <input type="text" name="nome" id="nome" value="<?php exibirSessao("nome_usuario"); ?>"required><br>
-        <label for="cpf">cpf: </label> <input type="text" name="cpf" id="cpf" value="<?php exibirSessao("cpf"); ?>" required><br>
-        <?php exibirSessao("cpf_invalido");?>
-        <label for="telefone">telefone: </label> <input type="text" name="telefone" id="telefone" value="<?php exibirSessao("telefone");?>"required><br>
-        <?php exibirSessao("tel_invalido");?>
+        <?php if (!isset($_SESSION['id_usuario'])) {
+            echo "
+            <label for='nome'>nome: </label> <input type='text' name='nome' id='nome' value='"; exibirSessao('nome_usuario'); echo "' required><br>
+            <label for='cpf'>cpf: </label> <input type='text' name='cpf' id='cpf' value='"; exibirSessao('cpf'); echo "' required><br>
+            "; exibirSessao('cpf_invalido'); echo"
+            <label for='telefone'>telefone: </label> <input type='text' name='telefone' id='telefone' value='"; exibirSessao('telefone'); echo "' required><br>
+             "; exibirSessao('tel_invalido');
+        }
+        ?>
         <label for="nome_banda">nome: </label> <input type="text" name="nome_banda" id="nome_banda" value="<?php exibirSessao("nome_banda"); ?>" required><br>
         <label for="qtd_int">qtd_int: </label> <input type="text" name="qtd_int" id="qtd_int" value="<?php exibirSessao("integrantes"); ?>" required><br>
-        <label for="estilo">estilo: </label> <input type="text" name="estilo" id="estilo" value=" <?php exibirSessao("estilo"); ?>" required><br>
-        <label for="foto_perfil">foto perfil</label> <input type="text" name="foto" id="foto" value=" <?php exibirSessao("foto"); ?>"><br>
+        <label for="estilo">estilo: </label> <input type="text" name="estilo" id="estilo" value="<?php exibirSessao("estilo");?>" required><br>
+        <label for="foto_perfil">foto perfil</label> <input type="text" name="foto" id="foto" value="<?php exibirSessao("foto");?>"><br>
         <label for="email">E-mail</label> <input type="text" name="email" id="email" value = "<?php exibirSessao("email"); ?>" required><br>
         <?php  exibirSessao("email_invalido");?>
         <label for="cep">CEP</label> <input type="text" name="cep" id="cep" value = "<?php exibirSessao("cep"); ?>" required><br>

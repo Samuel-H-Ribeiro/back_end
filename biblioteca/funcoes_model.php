@@ -36,28 +36,118 @@ function validacao($ret, $valor, $campo) {
 // }
 
 function retornaCidade($cidade, $conn){
-    $select = "SELECT id FROM cidades WHERE cidade LIKE ':cidade'";
-    
+    $select = "SELECT id FROM cidades WHERE cidade LIKE :cidade";
+    $result = $conn->prepare($select);
+    $result->execute(array(':cidade' => $cidade));
+
 }
 
-function consultaId($campo, $tabela, $valor, $conn){
-    $select = "SELECT id FROM :tabela WHERE :campo LIKE ':valor'";
+function consultaId($tabela, $campo, $valor, $conn){
+    $select = "SELECT id FROM $tabela WHERE $campo LIKE '$valor'";
     $result = $conn->prepare($select);
-    $result-> execute(array(':tabela' => $tabela, ':campo' => $campo, ':valor' => $valor));
+    $result->execute();
     $id = $result->fetch(PDO::FETCH_ASSOC);
     return $id['id'];
 }
 
-function select_insert($campo, $tabela, $valor, $conn){
-    $id = consultaId($campo, $tabela, $valor, $conn);
+function select_insert($tabela, $campo, $valor, $conn){
+    $select = "SELECT id FROM $tabela WHERE $campo = '$valor'";
+   // $select = "SELECT id FROM :tabela WHERE :campo LIKE :valor";
+    $result = $conn->prepare($select);
+    $result->execute();
+        //array(':tabela' =>$tabela, ':campo' =>$campo, ':valor' =>$valor));
+    $id = $result->fetch(PDO::FETCH_ASSOC);
+
     if($id == false){
-       $insert = "INSERT INTO `:tabela` (`:campo`) values (':valor')";
+        $insert = "INSERT INTO `$tabela` (`$campo`) VALUES ('$valor')";
+        //$insert = "INSERT INTO `:tabela` (`:campo`) VALUES (:valor)";
         $result = $conn->prepare($insert);
-        $result-> execute(array(':tabela' => $tabela, ':campo' => $campo, ':valor' => $valor));
-        $id = $result->fetch(PDO::FETCH_ASSOC);
-        $id = $id['id'];
+        $result-> execute();
+            //array(':tabela' =>$tabela, ':campo' =>$campo, ':valor' =>$valor));
+        $id = consultaId($tabela, $campo, $valor, $conn);
     }
     return $id['id'];
 }
+
+    function consultaCidade($cidade, $conn) {
+        $select = "SELECT id FROM cidades WHERE cidade LIKE '$cidade'";
+        $select = $conn->prepare($select);
+        $select ->execute();
+        $id = $select->fetch(PDO::FETCH_ASSOC);
+
+        if ($id == false) {
+            $insert = "INSERT INTO `cidades` (`cidade`) VALUES ('$cidade')";
+            $insert = $conn->prepare($insert);
+            $insert->execute();
+            $select = "SELECT id FROM cidades WHERE cidade LIKE '$cidade'";
+            $select = $conn->prepare($select);
+            $select ->execute();
+            $id = $select->fetch(PDO::FETCH_ASSOC);    
+        }
+        return $id['id'];
+    }
+
+    function consultaEstado($estado, $conn) {
+        $select = "SELECT id FROM estados WHERE estado LIKE '$estado'";
+        $select = $conn->prepare($select);
+        $select ->execute();
+        $id = $select->fetch(PDO::FETCH_ASSOC);
+
+        if ($id == false) {
+            $insert = "INSERT INTO `estados` (`estado`) VALUES ('$estado')";
+            $insert = $conn->prepare($insert);
+            $insert->execute();
+            $select = "SELECT id FROM estados WHERE estado LIKE '$estado'";
+            $select = $conn->prepare($select);
+            $select ->execute();
+            $id = $select->fetch(PDO::FETCH_ASSOC);    
+        }
+        return $id['id'];
+    }
+
+    function consultaCep($cep, $conn) {
+        $select = "SELECT id FROM ceps WHERE cep LIKE '$cep'";
+        $select = $conn->prepare($select);
+        $select ->execute();
+        $id = $select->fetch(PDO::FETCH_ASSOC);
+
+        if ($id == false) {
+            $insert = "INSERT INTO `ceps` (`cep`) VALUES ('$cep')";
+            $insert = $conn->prepare($insert);
+            $insert->execute();
+            $select = "SELECT id FROM ceps WHERE cep LIKE '$cep'";
+            $select = $conn->prepare($select);
+            $select ->execute();
+            $id = $select->fetch(PDO::FETCH_ASSOC);    
+        }
+        return $id['id'];
+    }
+
+    function consultaEstilo($estilo, $conn) {
+        $select = "SELECT id FROM estilos WHERE estilo LIKE '$estilo'";
+        $select = $conn->prepare($select);
+        $select ->execute();
+        $id = $select->fetch(PDO::FETCH_ASSOC);
+
+        if ($id == false) {
+            $insert = "INSERT INTO `estilos` (`estilo`) VALUES ('$estilo')";
+            $insert = $conn->prepare($insert);
+            $insert->execute();
+            $select = "SELECT id FROM estilos WHERE estilo LIKE '$estilo'";
+            $select = $conn->prepare($select);
+            $select ->execute();
+            $id = $select->fetch(PDO::FETCH_ASSOC);    
+        }
+        return $id['id'];
+    }
+
+    function id ($tabela, $campo, $valor, $conn) {
+        $select = "SELECT id FROM $tabela WHERE $campo LIKE '$valor'";
+        $select = $conn->prepare($select);
+        $select ->execute();
+        $id = $select->fetch(PDO::FETCH_ASSOC);
+
+        return $id;
+    }
 
 ?>
