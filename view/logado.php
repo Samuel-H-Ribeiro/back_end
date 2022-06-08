@@ -10,8 +10,8 @@
 
     <h1>Bem vindo a pagina <?php echo $_SESSION['nome_login']; if(isset($_SESSION['id_usuario'])) { echo $_SESSION['id_usuario'];} ?></h1>
     <a href="../view/cadastro_banda.php">Cadastrar Banda</a><br>
-
-    <a href="../controller/logout.php">sair</a><br>
+    <a href="../view/cadastro_estab.php">Cadastrar estabelecimento</a><br>
+    <a href="../controller/logout.php">Sair</a><br>
 
     </body>
     </html>

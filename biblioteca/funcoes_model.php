@@ -150,4 +150,40 @@ function select_insert($tabela, $campo, $valor, $conn){
         return $id;
     }
 
+    function consultaRua($rua, $conn) {
+        $select = "SELECT id FROM logradouro WHERE rua LIKE '$rua'";
+        $select = $conn->prepare($select);
+        $select ->execute();
+        $id = $select->fetch(PDO::FETCH_ASSOC);
+
+        if ($id == false) {
+            $insert = "INSERT INTO `logradouro` (`rua`) VALUES ('$rua')";
+            $insert = $conn->prepare($insert);
+            $insert->execute();
+            $select = "SELECT id FROM logradouro WHERE rua LIKE '$rua'";
+            $select = $conn->prepare($select);
+            $select ->execute();
+            $id = $select->fetch(PDO::FETCH_ASSOC);    
+        }
+        return $id['id'];
+    }
+
+    function consultaBairro($bairro, $conn) {
+        $select = "SELECT id FROM bairros WHERE bairro LIKE '$bairro'";
+        $select = $conn->prepare($select);
+        $select ->execute();
+        $id = $select->fetch(PDO::FETCH_ASSOC);
+
+        if ($id == false) {
+            $insert = "INSERT INTO `bairros` (`bairro`) VALUES ('$bairro')";
+            $insert = $conn->prepare($insert);
+            $insert->execute();
+            $select = "SELECT id FROM bairros WHERE bairro LIKE '$bairro'";
+            $select = $conn->prepare($select);
+            $select ->execute();
+            $id = $select->fetch(PDO::FETCH_ASSOC);    
+        }
+        return $id['id'];
+    }
+
 ?>

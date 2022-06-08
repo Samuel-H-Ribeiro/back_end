@@ -24,11 +24,8 @@
 
     if (!isset($_SESSION['id_usuario'])) {
         $usuario = new usuario($nome, $cpf, $telefone, $id_login);
-    }
-    
-    if (!isset($_SESSION['id_usuario'])) {
-    $cpf_invalido = consulta($usuario->cpf, "cpf", "usuario", $conn);
-    $tel_invalido = consulta($usuario->telefone, "numero", "telefone", $conn);
+        $cpf_invalido = consulta($usuario->cpf, "cpf", "usuario", $conn);
+        $tel_invalido = consulta($usuario->telefone, "numero", "telefone", $conn);
     } else {
         $cpf_invalido = false;
         $tel_invalido = false;
@@ -39,6 +36,7 @@
         validaSessao($cpf_invalido, "cpf_invalido", "CPF");
         validaSessao($tel_invalido, "tel_invalido", "Telefone"); 
         validaSessao($email_invalido, "email_invalido", "Email");
+
         }
     
     if ($cpf_invalido != false || $tel_invalido != false || $email_invalido != false) {
